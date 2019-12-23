@@ -3,6 +3,8 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const CopyrightWebpackPlugin = require('./plugins/copyright')
+
 module.exports = {
   // 打包入口
   entry: "./index.js",
@@ -90,6 +92,9 @@ module.exports = {
   new MiniCssExtractPlugin({
     filename: "[name].css"
   }),
-  new webpack.HotModuleReplacementPlugin()
+  new webpack.HotModuleReplacementPlugin(),
+  new CopyrightWebpackPlugin({
+    event: 'copy'
+  })
   ]
 }

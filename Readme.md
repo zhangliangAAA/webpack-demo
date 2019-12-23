@@ -92,3 +92,9 @@ useBuiltIns 选项是 babel 7 的新功能，这个选项告诉 babel 如何配�
 请注意: usage 的行为类似 babel-transform-runtime，不会造成全局污染，因此也会不会对类似 Array.prototype.includes() 进行 polyfill。
 
 另外：可以新建 .babelrc 把options部分移入到该文件中
+
+
+## 自定义loader
+Loader就是⼀一个函数，声明式函数，不不能⽤用箭头函数 拿到源代码，作进⼀一步的修饰处理理，再返回处理理后的源码就可以了
+
+多loader执行顺序，⾃自下⽽而上，⾃自右到左

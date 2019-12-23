@@ -31,33 +31,50 @@ module.exports = {
       }
     },
   },
+  // 先去node_modules下查找相关loader，找不到到./loader下找
+  resolveLoader: {
+    modules: ["node_modules", "./loader"]
+  },
   //默认只编译js
   module:{
     //遇到不认识的某块写在此
     rules:[
-      { test: /\.js$/, 
+      {
+        test: /\.js$/, 
         exclude: /node_modules/, 
-        use: {
-          loader:"babel-loader",
-          // options: {
-          //   // presets: [
-          //   //   [
-          //   //     "@babel/preset-env",
-          //   //     {
-          //   //       targets: {
-          //   //         edge: "17",
-          //   //         firefox: "60",
-          //   //         chrome: "67",
-          //   //         safari: "11.1"
-          //   //       },
-          //   //       useBuiltIns: "usage"//按需注入 }
-          //   //     } 
-          //   //   ]
-          //   // ],
-          //   plugins: ["@babel/plugin-transform-runtime"]
-          // },
-        }
+        use: [
+          "replaceLoader.js",
+          {
+            loader: "./loader/asyncLoader.js",
+            options: {
+              name: 'my-loader'
+            }
+          }
+        ]
       },
+      // { test: /\.js$/, 
+      //   exclude: /node_modules/, 
+      //   use: {
+      //     loader:"babel-loader",
+      //     // options: {
+      //     //   // presets: [
+      //     //   //   [
+      //     //   //     "@babel/preset-env",
+      //     //   //     {
+      //     //   //       targets: {
+      //     //   //         edge: "17",
+      //     //   //         firefox: "60",
+      //     //   //         chrome: "67",
+      //     //   //         safari: "11.1"
+      //     //   //       },
+      //     //   //       useBuiltIns: "usage"//按需注入 }
+      //     //   //     } 
+      //     //   //   ]
+      //     //   // ],
+      //     //   plugins: ["@babel/plugin-transform-runtime"]
+      //     // },
+      //   }
+      // },
       {
         test: /\.jpeg|png$/,
         use: {

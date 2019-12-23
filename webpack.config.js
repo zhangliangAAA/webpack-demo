@@ -35,6 +35,29 @@ module.exports = {
   module:{
     //遇到不认识的某块写在此
     rules:[
+      { test: /\.js$/, 
+        exclude: /node_modules/, 
+        use: {
+          loader:"babel-loader",
+          // options: {
+          //   // presets: [
+          //   //   [
+          //   //     "@babel/preset-env",
+          //   //     {
+          //   //       targets: {
+          //   //         edge: "17",
+          //   //         firefox: "60",
+          //   //         chrome: "67",
+          //   //         safari: "11.1"
+          //   //       },
+          //   //       useBuiltIns: "usage"//按需注入 }
+          //   //     } 
+          //   //   ]
+          //   // ],
+          //   plugins: ["@babel/plugin-transform-runtime"]
+          // },
+        }
+      },
       {
         test: /\.jpeg|png$/,
         use: {

@@ -48,3 +48,47 @@ module.hot.accept('./a',()=> {
   console.log('a 有更新')
   a()
 })
+
+## Babel处理ES6
+1、安装 npm i babel-loader @babel/core @babel/preset-env -D
+//babel-loader是webpack 与 babel的通信桥梁，不会做把es6转成es5的工作，这部分工作需要用到 @babel/preset-env来做
+//@babel/preset-env里包含了es6转es5的转换规则
+
+2、安装  npm install --save @babel/polyfill
+@babel/polyfill，把es的新特性都装进 来，来弥补低版本浏览器中缺失的特性
+
+3、优化@babel/polyfill，即按需加载
+@babel/polyfill：以全局变量的方式注入进来的。eg:windows.Promise，它会造成全局对象的污染
+修改Webpack.config.js
+{ test: /\.js$/, 
+  exclude: /node_modules/, 
+  use: {
+    loader:"babel-loader",
+    options: {
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            targets: {
+              edge: "17",
+              firefox: "60",
+              chrome: "67",
+              safari: "11.1"
+            },
+            useBuiltIns: "usage"//按需注入，实验性的插件 }
+          } 
+        ]
+      ]
+    }
+  }
+},
+
+4、@babel/plugin-transform-runtime 进一步优化
+优点：不会造成全局污染
+将 presets 替换成 plugins: ["@babel/plugin-transform-runtime"]
+
+综上：
+useBuiltIns 选项是 babel 7 的新功能，这个选项告诉 babel 如何配置 @babel/polyfill 。 它有三个参数可 以使用: 1entry: 需要在 webpack 的入口文件里 import "@babel/polyfill" 一次。 babel 会根据你的使用情 况导入垫片，没有使用的功能不会被导入相应的垫片。 2usage: 不需要 import ，全自动检测，但是要安装@babel/polyfill 。(试验阶段) 3false: 如果你 import "@babel/polyfill" ，它不会排除掉没有使用的垫 片，程序体积会庞大。(不推荐)
+请注意: usage 的行为类似 babel-transform-runtime，不会造成全局污染，因此也会不会对类似 Array.prototype.includes() 进行 polyfill。
+
+另外：可以新建 .babelrc 把options部分移入到该文件中

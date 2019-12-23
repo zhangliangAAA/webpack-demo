@@ -1,23 +1,5 @@
-import './index.css';
-import a from './a'
-import b from './b'
-
-a()
-b()
-
-if(module.hot){
-  module.hot.accept('./a',()=> {
-    console.log('a 有更新')
-    a()
-  })
-}
-
-var btn = document.createElement('button');
-btn.innerHTML = '新增';
-document.body.appendChild(btn);
-btn.onclick = function() {
-  var div = document.createElement('div');
-  console.log('1');
-  div.innerHTML = 'item';
-  document.body.appendChild(div);
-};
+// es6新语法
+// require("@babel/polyfill"); //启动按需加载后不用全部引入 // es6等更高级语法
+const arr = [1,2,3,4]
+let sq = arr.map(item => item*item)
+console.log(sq)

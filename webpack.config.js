@@ -2,6 +2,7 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
 module.exports = {
   // 打包入口
   entry: "./index.js",
@@ -20,7 +21,8 @@ module.exports = {
     contentBase: "./dist",
     open: true, //打开浏览器
     //即便HMR不生效，浏览器也不自动刷新，就开启hotOnly
-    // hot:true, //热更新
+    hot:true, //热更新-->仅仅针对于css
+    hotOnly: false, //true:js改变后浏览器不刷新，需要手动刷新；false(默认)：js更新保存后浏览器自动刷新
     port: 8081,
     // 设置代理解决跨域问题
     proxy: {
@@ -47,13 +49,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        //MiniCssExtractPlugin.loader单独将css打包成对应文件
-        use: [MiniCssExtractPlugin.loader,"css-loader","postcss-loader"] 
+        //style-loader将打包后的css以标签形式插入html中
+        use: ["style-loader","css-loader","postcss-loader"] 
       },
       {
         test: /\.scss$/,//从后往前执行
-        //style-loader将打包后的css以标签形式插入html中
-        use: ["style-loader","css-loader","sass-loader"]
+        //MiniCssExtractPlugin.loader单独将css打包成对应文件
+        use: [MiniCssExtractPlugin.loader,"css-loader","sass-loader"]
       }
     ]
   },
@@ -64,6 +66,7 @@ module.exports = {
   new CleanWebpackPlugin(),
   new MiniCssExtractPlugin({
     filename: "[name].css"
-  })
-]
+  }),
+  new webpack.HotModuleReplacementPlugin()
+  ]
 }

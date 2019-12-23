@@ -1,4 +1,7 @@
-function a(){
-  console.log('hello___a');
+function number() {
+  var div = document.querySelector('#root')
+
+  div.innerHTML = 1001;
+  // document.body.appendChild(div);
 }
-export default a
+export default number;

@@ -1,28 +1,23 @@
+import './index.css';
 import a from './a'
 import b from './b'
-
-import img from './img/a.png'
-import img2 from './img/th.jpeg'
-
-import './index.css'
-
-import axios from 'axios'
-axios.get('/api/info').then(res=>{
-  console.log(res)
-})
 
 a()
 b()
 
-var image = new Image();
-image.src = img;
-image.classList.add('pic')
-document.querySelector('#root').append(image)
-
-console.log('eee',img);
-
-
-function say(){
-  console.log('hello');
+if(module.hot){
+  module.hot.accept('./a',()=> {
+    console.log('a 有更新')
+    a()
+  })
 }
-say();
+
+var btn = document.createElement('button');
+btn.innerHTML = '新增';
+document.body.appendChild(btn);
+btn.onclick = function() {
+  var div = document.createElement('div');
+  console.log('1');
+  div.innerHTML = 'item';
+  document.body.appendChild(div);
+};
